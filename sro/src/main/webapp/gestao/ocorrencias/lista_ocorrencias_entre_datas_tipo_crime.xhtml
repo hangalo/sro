@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        
+        <ui:composition template="./../../WEB-INF/templates/template_gestao_ocorrencias.xhtml">
+
+
+
+            <ui:define name="left">
+                <h:form>
+                    <h:panelGrid>
+                        <h:commandLink action="menu_gestao_ocorrencia?faces-redirect=true">
+                            <h:graphicImage name="home.png" library="images" width="50" height="50"/>
+                        </h:commandLink>
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+
+              <ui:define name="right">
+                right
+            </ui:define>
+            <ui:define name="content">
+                <f:view>
+                   
+                      <h:form>
+
+                    <div class="card">
+                        <h5>Lista de agentes</h5>
+                        <p:dataTable var="agente" value="#{agenteBean.agentes}" reflow="true" rows="5" paginator="true" paginatorPosition="bottom">
+                            <p:column headerText="N.º de agente">
+                                <h:outputText value="#{agente.numeroAgente}"/>
+                            </p:column>
+
+                            <p:column headerText="Nome">
+                                <h:outputText value="#{agente.nomeAgente}"/>
+                            </p:column>
+
+                            <p:column headerText="Sobrenome:">
+                                <h:outputText value="#{agente.sobrenomeAgente}"/>
+                            </p:column>
+
+                            <p:column headerText="Sexo:">
+                                <h:outputText value="#{agente.sexo.abreviatura}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+
+
+
+                </h:form>
+
+                </f:view>
+
+            </ui:define>
+
+
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+
+        <ui:composition template="./../../WEB-INF/templates/template_gestao_agente.xhtml">
+
+
+
+            <ui:define name="left">
+                <h:form>
+                    <h:panelGrid>
+                        <h:commandLink action="menu_gestao_agente?faces-redirect=true">
+                            <h:graphicImage name="home.png" library="images" width="50" height="50"/>
+                        </h:commandLink>
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="formProcura"  >
+                    <h:messages/>
+
+                    <h:panelGrid columns="2" cellspacing="5%" width="50px" styleClass="panelGridCenter">
+
+                        <p:inputText id="nome_vitima" value="#{agenteBean.nomeSobrenome}" required="true" requiredMessage="Campo obrigatório" immediate="true" size="60" placeholder="Nome, Sobrenome, BI, N.° Contribuinte"/>
+
+
+                        <p:commandButton value="Procurar..." actionListener="#{agenteBean.executarProcuraPorNomeSobrenome}" styleClass="but but-primary" ajax="false"/>
+
+                    </h:panelGrid>
+
+
+                </h:form>
+
+
+                <h:form id="tbform">
+                    <p:dataTable  id="tbl" value="#{agenteBean.listaPorNome}" var="item" rows="10"  paginator="true"
+                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                  currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records" rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"   showGridlines="true" scrollable="true" scrollHeight="250" emptyMessage="Nenhum registo encontrado">
+
+                        <p:column headerText="N.º do Agente"  width="20%">
+                            <h:outputText value="#{item.numeroAgente}" />
+                        </p:column>
+                        <p:column headerText="Nome:" >
+                            <h:outputText value="#{item.nomeAgente}" />
+                        </p:column>
+                        <p:column headerText="Sobrenome:">
+                            <h:outputText value="#{item.sobrenomeAgente}"/>
+                        </p:column>
+
+                        <p:column headerText="">
+                            <p:commandButton icon="pi pi-search"  oncomplete="PF('dlg1').show();" >
+                                <f:setPropertyActionListener target="#{agenteBean.agente}" value="#{item}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <f:facet name="footer">  
+                            <h:outputText  rendered="#{agenteBean.listaPorNome.size()>0}" value="Total: #{(agenteBean.listaPorNome.size())}"/>  
+                        </f:facet> 
+
+                    </p:dataTable>
+                </h:form>
+
+                <p:dialog header="Vítima #{agenteBean.agente.nomeAgente} #{agenteBean.agente.sobrenomeAgente}" widgetVar="dlg1" minHeight="40" width="400" showEffect="fade">
+
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="N.º BI"/>
+                        <h:outputText value="#{agenteBean.agente.numeroAgente}"/>
+                        <h:outputLabel value="Nome:"/>
+                        <h:outputText value="#{agenteBean.agente.nomeAgente}" />
+                        <h:outputLabel value="Sobrenome:"/>
+                        <h:outputText value="#{agenteBean.agente.sobrenomeAgente}"/>
+                        <h:outputLabel value="Nascimento:"/>
+                        <h:outputText value="#{agenteBean.agente.dataNascimento}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                        <h:outputLabel value="Sexo:"/>
+                        <h:outputText value="#{agenteBean.agente.sexo}" />
+
+                        <h:outputLabel value="Telefone Movicel:"/>
+                        <h:outputText value="#{agenteBean.agente.telefoneMovicel}"/>
+                        <h:outputLabel value="Telefone Unitel:"/>
+                        <h:outputText value="#{agenteBean.agente.telefoneUnitel}" />
+                        <h:outputLabel value="Telefone Africell"/>
+                        <h:outputText value="#{agenteBean.agente.telefoneAfricell}" />
+                    </h:panelGrid>
+
+                </p:dialog>
+
+
+
+            </ui:define>
+
+
+
+        </ui:composition>
+
+    </body>
+</html>

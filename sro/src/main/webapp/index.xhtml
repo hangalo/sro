@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>SRO- Sistema de Registo de Ocorrências</title>
+        <h:outputStylesheet library="css" name="estilos.css"/>  
+    </h:head>
+    <h:body>
+        <div class="container">
+            <div class="header">
+                <p class="logo"><a href="#">
+                        <h:graphicImage name="logo_pn.png" library="images" width="80" height="80"/>
+                        <i class="fa fa-file-code-o" aria-hidden="true"></i></a></p>
+                <nav>
+                    <ul>
+                        <li><a href="#">
+
+                               
+                                <h:form>
+                                 
+                                    <p:commandButton id="basic" value=" Sobre o Sistema" type="button"/>
+                                    <p:overlayPanel for="basic" style="width:350px">
+                                        <p>SRO - Sistema de Registo de Ocorrência da PN da Huila</p>
+                                        <hr/>
+                                        <p>Apenas agentes registados podem efectuar o Registo de Ocorrências</p>
+                                    </p:overlayPanel>
+                                </h:form>
+
+
+                            </a></li>
+                        
+                      
+                    </ul>
+                </nav>
+                <!--  <button>Login</button>-->
+            </div>
+
+            <aside class="sidebar">
+
+                <h3>Registos</h3>
+                <ul>
+
+                    <li><h:link outcome="gestao/ocorrencias/menu_gestao_ocorrencia" value="Gestão de Ocorrencias"/></li>
+
+                    <li><h:link outcome="gestao/vitima/menu_gestao_vitima" value="Gestão de Vítimas"/></li>
+                    <li><h:link outcome="gestao/suspeito/menu_gestao_suspeito" value="Gestão de Suspeitos"/></li>
+                    <li><h:link outcome="gestao/agente/menu_gestao_agente" value="Gestão de Agentes"/></li>
+                    <li><h:link outcome="gestao/tabelas/menu_gestao_tabelas" value="Tabelas"/></li>
+
+                </ul>
+            </aside>
+
+
+            <div class="extra">
+                <div class="content-block-info">
+                    <h3>Útimas Ocorrências</h3>
+                    <p>Filtros e Listagens...</p>
+                    <button>Read</button>
+                </div>
+                <div class="content-block-info">
+                    <h3>Estatísticas</h3>
+                    <p>Insidências por crime e municipio...</p>
+                    <button>Read</button>
+                </div>
+                <div class="content-block-info">
+                    <h3>Telefones</h3>
+                    <p>Números de telefones de utilidade pública</p>
+                    <button>Read</button>
+                </div>
+            </div><!-- /extra -->
+
+
+
+            <footer>
+                <h3>Polícia Nacional de Angola - Huila</h3>
+                <p>Todos os direitos reservados</p></footer>
+        </div>
+    </h:body>
+</html>

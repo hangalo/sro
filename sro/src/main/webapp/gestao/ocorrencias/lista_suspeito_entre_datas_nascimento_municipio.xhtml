@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/templates/template_gestao_suspeito.xhtml">
+
+           
+             <ui:define name="left">
+                <h:form>
+                    <h:panelGrid>
+                        <h:commandLink action="menu_gestao_suspeito?faces-redirect=true">
+                            <h:graphicImage name="home.png" library="images" width="50" height="50"/>
+                        </h:commandLink>
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+            
+            
+            <ui:define name="content">
+
+                <h:panelGrid columns="2" styleClass="panelGridCenter">
+                    <h:outputLabel value="Buasca de Suspeitos entre datas por Município:" style="padding: 20px; margin: 40px; text-align: center; font-size: 1.4em;"/>
+
+                    <h:outputLabel rendered="#{suspeitoBean.listaEntreDatas.size()>0}" value="Total de linhas: #{suspeitoBean.listaEntreDatas.size()}" style="padding: 20px; margin: 40px; text-align: center; font-size: 1.4em;"/>
+                </h:panelGrid>
+                <h:panelGrid columns="1" styleClass="panelGridCenter">
+
+
+                    <h:form>
+
+                        <h:panelGrid columns="3">
+
+                            <h:panelGroup>
+                                <p:outputLabel value="Nascido(a) entre:"/>
+                                <p:calendar value="#{suspeitoBean.inicio}" pattern="dd/MM/yyyy" required="true" requiredMessage="Campo obrigatoriio." size="10"/>
+                                <p:outputLabel value="e"/>
+                                <p:calendar value="#{suspeitoBean.fim}" pattern="dd/MM/yyyy" required="true" requiredMessage="Campo obrigatoriio." size="10"/>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                            <p:outputLabel value="no municipio"/>
+                            <p:selectOneMenu style="width:200px" id="municipio" filter="true" filterMatchMode="startsWith" label="Tipo de produto" value="#{suspeitoBean.municipio}" required="true" converter="municipioConverter">
+                                <f:selectItem itemLabel="--Seleccionar o municipio--" value="#{null}" noSelectionOption="true"/>
+                                <f:selectItems value="#{municipioBean.municipios}" var="municipio"  itemValue="#{municipio}" itemLabel="#{municipio.nomeMunicipio}"/>
+                            </p:selectOneMenu>
+                            </h:panelGroup>
+                            <p:commandButton ajax="false" style="margin-left:  10px" value="Persquisar..."  actionListener="#{suspeitoBean.executarBuscaSuspeitoEntreDatasPorMuniciopio}" />
+                        </h:panelGrid>
+
+
+
+
+
+                    </h:form>
+
+
+                </h:panelGrid>
+
+                <h:form id="tbform">
+                    <p:dataTable  id="tbl" value="#{suspeitoBean.listaEntreDatas}" var="item" rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records" rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"   showGridlines="true" scrollable="true" scrollHeight="250">
+                       
+                        <p:column headerText="N.º do BI"  >
+                            <h:outputText value="#{item.numeroBI}" />
+                        </p:column>
+                        <p:column headerText="N.º Contribuinte" >
+                            <h:outputText value="#{item.numeroContribuinte}" />
+                        </p:column>
+                        <p:column headerText="Nome:">
+                            <h:outputText value="#{item.nomeSuspeito}"/>
+                        </p:column>
+
+                        <p:column headerText="Sobrenome" >
+                            <h:outputText value="#{item.sobrenomeSuspeito}"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton icon="pi pi-search"  onclick="PF('dlg1').show();">
+                                <f:setPropertyActionListener target="#{suspeitoBean.suspeito}" value="#{item}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <f:facet name="footer">  
+                            <h:outputText  rendered="#{suspeitoBean.listaPorNome.size()>0}" value="Total: #{(suspeitoBean.listaPorNome.size())}"/>  
+                        </f:facet> 
+
+                    </p:dataTable>
+                </h:form>
+
+
+                <p:dialog header="Suspeito: #{suspeitoBean.suspeito.nomeSuspeito} #{suspeitoBean.suspeito.sobrenomeSuspeito}" widgetVar="dlg1" minHeight="40" width="400" showEffect="fade">
+                 
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="N.º BI"/>
+                            <h:outputText value="#{suspeitoBean.suspeito.numeroBI}"/>
+                            <h:outputLabel value="N.º Contribuinte:"/>
+                            <h:outputText value="#{suspeitoBean.suspeito.numeroContribuinte}" />
+                            <h:outputLabel value="Nome:"/>
+                            <h:outputText value="#{suspeitoBean.suspeito.nomeSuspeito}" />
+                            <h:outputLabel value="Sobrenome:"/>
+                            <h:outputText value="#{suspeitoBean.suspeito.sobrenomeSuspeito}"/>
+                            <h:outputLabel value="Nascimento:"/>
+                            <h:outputText value="#{suspeitoBean.suspeito.dataNascimento}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                            <h:outputLabel value="Sexo:"/>
+                            <h:outputText value="#{suspeitoBean.suspeito.sexo}" />
+
+                            <h:outputLabel value="N.º Casa:"/>
+                            <h:outputText value="#{suspeitoBean.suspeito.casaSuspeito}"/>
+                            <h:outputLabel value="Bairro:"/>
+                            <h:outputText value="#{suspeitoBean.suspeito.bairroSuspeito}" />
+                            <h:outputLabel value="Comuna:"/>
+                            <h:outputText value="#{suspeitoBean.suspeito.comunaSuspeito}"/>
+                            <p:outputLabel value="Municipio:" />
+                            <h:outputText value="#{suspeitoBean.suspeito.municipio.nomeMunicipio}" />
+                        </h:panelGrid>
+                    
+                </p:dialog>
+
+
+
+            </ui:define>
+
+
+
+        </ui:composition>
+
+    </body>
+</html>

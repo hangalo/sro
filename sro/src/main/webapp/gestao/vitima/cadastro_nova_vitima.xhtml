@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/templates/template_gestao_vitima.xhtml">
+
+
+
+            <ui:define name="left">
+                <h:form>
+                    <h:panelGrid>
+                        <h:commandLink action="menu_gestao_vitima?faces-redirect=true">
+                            <h:graphicImage name="home.png" library="images" width="50" height="50"/>
+                        </h:commandLink>
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+                    <h:form>
+                          <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="N.º do BI"/>
+                            <p:inputText value="#{vitimaBean.vitima.numeroBI}"/>
+                            <h:outputLabel value="N.º de Contribuinte"/>
+                            <p:inputText value="#{vitimaBean.vitima.numeroContribuinte}"/>
+                            <h:outputLabel value="Nome:"/>
+                            <p:inputText value="#{vitimaBean.vitima.nomeVitima}" size="50"/>
+                            <h:outputLabel value="Sobrenome:"/>
+                            <p:inputText value="#{vitimaBean.vitima.sobrenomeVitima}" size="50"/>
+                            <h:outputLabel value="Data de nascimento"/>
+                            <p:datePicker value="#{vitimaBean.vitima.dataNascimentoVitima}" pattern="dd/MM/yyyy"/>
+                            <h:outputLabel value="Sexo:"/>
+                            <p:selectOneRadio value="#{vitimaBean.vitima.sexo}" layout="lineDirection">
+                                <f:selectItems value="#{auxBean.opSexos}" />
+                            </p:selectOneRadio>
+                            <h:outputLabel value="N.° da casa:"/>
+                            <p:inputText value="#{vitimaBean.vitima.casaVitima}"/>
+                            <h:outputLabel value="Rua:"/>
+                            <p:inputText value="#{vitimaBean.vitima.ruaVitima}"/>
+                            <h:outputLabel value="Bairro:"/>
+                            <p:inputText value="#{vitimaBean.vitima.bairroVitima}" size="50"/>
+                            <h:outputLabel value="Comuna"/>
+                            <p:inputText value="#{vitimaBean.vitima.comunaVitima}" size="50"/>
+                            <p:outputLabel value="Municipio:" />
+                            <p:selectOneMenu style="width:200px" id="municipios" filter="true" filterMatchMode="startsWith" label="Município:" value="#{vitimaBean.vitima.municipio}" required="true" converter="municipioConverter">
+                                <f:selectItem itemLabel="-Seleccione o município-" value="#{null}" noSelectionOption="true"/>
+                                <f:selectItems value="#{municipioBean.municipios}" var="municipio" itemValue="#{municipio}" itemLabel="#{municipio.nomeMunicipio}"/>
+                            </p:selectOneMenu>
+                              <p:commandButton actionListener="#{vitimaBean.guardar}" value="Guardar" ajax="false" update="msgs, @form"/>
+                              <p:commandButton type="reset" value="Cancelar" ajax="false" update="@form"/>
+                        </h:panelGrid>
+
+                    </h:form>
+                </f:view>
+
+            </ui:define>
+
+
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/templates/template_gestao_tabelas.xhtml">
+
+
+
+            <ui:define name="left">
+                <h:form>
+                    <h:commandLink action="menu_gestao_tabelas?faces-redirect=true">
+                        <h:graphicImage name="home.png" library="images" width="50" height="50"/>
+                    </h:commandLink>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="content">
+
+                <f:view>
+                    <h:form id="form">
+
+                        <p:commandButton value="Registar Novo" type="button" icon="pi pi-external-link" onclick="PF('dlg2').show()"/>
+                        <p:dialog header="Registar Novo Crime(Segundo a lei)" widgetVar="dlg2" minHeight="40" width="500" showEffect="fade" modal="true">
+
+                            <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
+                            <h:panelGrid id="panel" columns="1" >
+                                <p:outputLabel value="Crime"/>
+                                <p:inputText value="#{crimeBean.crime.descricaoCrime}" size="60"/>
+                                <p:outputLabel value="Tipologia do Crime"/>
+
+                                <p:selectOneMenu style="width:200px" id="tipo_crime" filter="true" filterMatchMode="startsWith" label="Município:" value="#{crimeBean.crime.tipoCrime}" required="true" converter="tipoCrimeConverter">
+                                    <f:selectItem itemLabel="-Seleccione o tipo-" value="#{null}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{tipoCrimeBean.tipoCrimes}" var="tipoCrime" itemValue="#{tipoCrime}" itemLabel="#{tipoCrime.descricaoTipoCrime}"/>
+                                </p:selectOneMenu>
+                                <hr/>
+
+                            </h:panelGrid>  
+                            <h:panelGrid columns="2">
+                                <p:commandButton actionListener="#{crimeBean.guardar}" value="Guardar" update="msgs @form"/>
+                                <p:commandButton  value="Cancelar"  type="reset"/>
+                            </h:panelGrid>
+
+
+
+                        </p:dialog>
+
+                    </h:form>
+
+                </f:view>
+
+                <f:view>
+                    <h:form id="tbform">
+                        <p:dataTable id="tbl" value="#{crimeBean.crimes}" var="item" rows="10"
+                 paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records" rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"   showGridlines="true" scrollable="true" scrollHeight="250">
+                            <f:facet name="header">
+                                <h3>Lista dos crimes previstos pela Lei</h3>
+                            </f:facet>
+                            <p:column headerText="Descrição" width="20%">
+                                <h:outputText value="#{item.descricaoCrime}" />
+                            </p:column>
+                            <p:column headerText="Tipologia do Crime">
+                                <h:outputText value="#{item.tipoCrime.descricaoTipoCrime}"/>
+                            </p:column>
+
+                            <p:column headerText="Detalhes da Tipologia do Crime" width="60%">
+                                <h:outputText value="#{item.tipoCrime.detalhesTipoCrime}"/>
+                            </p:column>
+
+
+                        </p:dataTable>
+                    </h:form>
+                </f:view>
+
+            </ui:define>
+
+
+
+        </ui:composition>
+
+    </body>
+</html>

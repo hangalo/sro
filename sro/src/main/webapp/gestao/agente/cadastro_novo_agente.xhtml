@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/templates/template_gestao_agente.xhtml">
+
+
+
+            <ui:define name="left">
+                <h:form>
+                    <h:panelGrid>
+                        <h:commandLink action="menu_gestao_agente?faces-redirect=true">
+                            <h:graphicImage name="home.png" library="images" width="50" height="50"/>
+                        </h:commandLink>
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+                    <h3>Cadastrar Novo Agente</h3>
+                    <h:form>
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="N.º do Agente"/>
+                            <p:inputText value="#{agenteBean.agente.numeroAgente}" required="true"/>
+                            <h:outputLabel value="Nome:"/>
+                            <p:inputText value="#{agenteBean.agente.nomeAgente}" size="60" required="true"/>
+                            <h:outputLabel value="Sobrenome:"/>
+                            <p:inputText value="#{agenteBean.agente.sobrenomeAgente}" size="60" required="true"/>
+                            <h:outputLabel value="Data de nascimento"/>
+                            <p:datePicker value="#{agenteBean.agente.dataNascimento}" pattern="dd/MM/yyyy" required="true"/>
+                            <h:outputLabel value="Sexo:"/>
+                            <p:selectOneRadio value="#{agenteBean.agente.sexo}" layout="lineDirection" required="true">
+                                <f:selectItems value="#{auxBean.opSexos}" />
+                            </p:selectOneRadio>
+                            <h:outputLabel value="Telefone Movicel:"/>
+                            <p:inputText value="#{agenteBean.agente.telefoneMovicel}"/>
+                            <h:outputLabel value="Telefone Unitel:"/>
+                            <p:inputText value="#{agenteBean.agente.telefoneUnitel}"/>
+                            <h:outputLabel value="Telefone Africell:"/>
+                            <p:inputText value="#{agenteBean.agente.telefoneAfricell}"/>
+                            <h:outputLabel value="E-mail:"/>
+                            <p:inputText value="#{agenteBean.agente.emailAgente}"/>
+
+                          
+                       
+                        </h:panelGrid>
+                          <hr/>
+                          <h:panelGrid columns="2">
+                             <p:commandButton actionListener="#{agenteBean.guardar}" value="Guardar" ajax="false"/>
+                        <p:commandButton  value="Limpar"  type="reset"/>
+                        </h:panelGrid>
+                    </h:form>
+                </f:view>
+
+            </ui:define>
+
+
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/templates/template_gestao_ocorrencias.xhtml">
+
+
+
+            <ui:define name="left">
+                <h:form>
+                    <h:panelGrid>
+                        <h:commandLink action="menu_gestao_ocorrencia?faces-redirect=true">
+                            <h:graphicImage name="home.png" library="images" width="50" height="50"/>
+                        </h:commandLink>
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+            <ui:define name="right">
+
+                <h:form>
+                    <h:panelGrid columns="1" cellspacing="40px">
+                        <h:commandLink id="natureza"  >
+                            <h:panelGrid columns="1" style="text-align: center;">
+                                <h:graphicImage library="images" name="target.png" />
+                                <h:outputText value="Adicionar Crime" />
+                            </h:panelGrid>
+                        </h:commandLink>
+
+                        <h:commandLink id="origem" >
+                            <h:panelGrid columns="1" style="text-align: center;">
+                                <h:graphicImage library="images" name="profle.png" />
+                                <h:outputText value="Adicionar Suspeito" />
+                            </h:panelGrid>
+                        </h:commandLink>
+
+                        <h:commandLink id="status" >
+                            <h:panelGrid columns="1" style="text-align: center;">
+                                <h:graphicImage library="images" name="man.png"  width="50" height="50"/>
+                                <h:outputText value="Adicionar Vítima" />
+                            </h:panelGrid>
+
+                        </h:commandLink>
+
+                      
+
+                    </h:panelGrid>
+                </h:form>
+
+
+
+            </ui:define>
+            <ui:define name="content">
+                <f:view>
+                    <h3>Registar nova Ocorrência</h3>
+                    <h:form id="form">
+                         <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="N.º Agente"/>
+                            <p:inputText value="#{ocorrenciaBean.numeroAgente}" size="30"/>
+                            <h:outputLabel value="Data da ocorrência"/>
+                            <p:datePicker value="#{ocorrenciaBean.ocorrencia.dataOcorrencia}" pattern="dd/MM/yyyy"  monthNavigator="true" yearNavigator="true" showWeek="true" locale="pt" size="30"/>
+                            <h:outputLabel value="Origem da Comunicação"/>
+                            <p:selectOneMenu style="width:200px" id="origem_comunicacao" filter="true" filterMatchMode="startsWith" label="Município:" value="#{ocorrenciaBean.ocorrencia.origemComunicacao}" required="true" converter="origemComunicacaoConverter">
+                                <f:selectItem itemLabel="-Seleccione a origem-" value="#{null}" noSelectionOption="true"/>
+                                <f:selectItems value="#{origemComunicacaoBean.origemComunicacoes}" var="origemComunicao" itemValue="#{origemComunicao}" itemLabel="#{origemComunicao.descricaoOrigemComunicacao}"/>
+                            </p:selectOneMenu>
+                            
+                             <h:outputLabel value="Status da Ocorrência"/>
+                             <p:selectOneMenu style="width:200px" id="status" filter="true" filterMatchMode="startsWith" label="Município:" value="#{ocorrenciaBean.ocorrencia.statusOcorrencia}" required="true" converter="statusOcorrenciaConverter">
+                                <f:selectItem itemLabel="-Seleccione o status-" value="#{null}" noSelectionOption="true"/>
+                                <f:selectItems value="#{statusOcorrenciaBean.statusOcorrencias}" var="statusOcorrencia" itemValue="#{statusOcorrencia}" itemLabel="#{statusOcorrencia.descricaoStatusOcorrencia}"/>
+                            </p:selectOneMenu>
+                            
+                             <p:outputLabel value="Natureza da Ocorrência" />
+                             <p:selectOneMenu style="width:200px" id="natureza_ocorrencia" filter="true" filterMatchMode="startsWith" label="Município:" value="#{ocorrenciaBean.ocorrencia.naturezaOcorrencia}" required="true" converter="naturezaOcorrenciaConverter">
+                                <f:selectItem itemLabel="-Seleccione a natureza-" value="#{null}" noSelectionOption="true"/>
+                                <f:selectItems value="#{naturezaOcorrenciaBean.naturezaOcorrencias}" var="naturezaOcorrencia" itemValue="#{naturezaOcorrencia}" itemLabel="#{naturezaOcorrencia.descricaoNaturezaOcorrencia}"/>
+                            </p:selectOneMenu>
+                              <h:outputLabel value="Ponto de referência(localidade):"/>
+                              <p:inputText value="#{ocorrenciaBean.ocorrencia.pontoReferenciaOcorrencia}" size="50"/>
+                            <h:outputLabel value="Rua:"/>
+                            <p:inputText value="#{ocorrenciaBean.ocorrencia.ruaOcorrencia}" size="50"/>
+                            <h:outputLabel value="Bairro:"/>
+                            <p:inputText value="#{ocorrenciaBean.ocorrencia.bairroOcorrencia}"/>
+                            <h:outputLabel value="Comuna:"/>
+                            <p:inputText value="#{ocorrenciaBean.ocorrencia.comunaOcorrencia}"/>
+                             <p:outputLabel value="Municipio:" />
+                             <p:selectOneMenu style="width:200px" id="municipios" filter="true" filterMatchMode="startsWith" label="Município:" value="#{ocorrenciaBean.ocorrencia.municipio}" required="true" converter="municipioConverter">
+                                <f:selectItem itemLabel="-Seleccione o município-" value="#{null}" noSelectionOption="true"/>
+                                <f:selectItems value="#{municipioBean.municipios}" var="municipio" itemValue="#{municipio}" itemLabel="#{municipio.nomeMunicipio}"/>
+                            </p:selectOneMenu>
+                             
+                             
+                            <h:outputLabel value="Descrição Geral(Exposição):"/>
+                            <p:inputTextarea value="#{ocorrenciaBean.ocorrencia.descricaoGeralOcorrencia}" rows="5" cols="60"/>
+                          
+                             <p:commandButton actionListener="#{ocorrenciaBean.guardar}" value="Guardar" ajax="false" update="msgs, @form"/>
+                            <p:commandButton  value="Limpar"  type="reset"/>
+                        </h:panelGrid>
+                       
+                    </h:form>
+                </f:view>
+
+            </ui:define>
+
+
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+
+     <ui:composition template="./../../WEB-INF/templates/template_gestao_vitima.xhtml">
+
+
+
+            <ui:define name="left">
+                <h:form>
+                    <h:panelGrid>
+                        <h:commandLink action="menu_gestao_vitima?faces-redirect=true">
+                            <h:graphicImage name="home.png" library="images" width="50" height="50"/>
+                        </h:commandLink>
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="formProcuraSuspeito"  >
+                    <h:messages/>
+
+                    <h:panelGrid columns="2" cellspacing="5%" width="50px" styleClass="panelGridCenter">
+
+                        <p:inputText id="nome_vitima" value="#{vitimaBean.nomeSobrenome}" required="true" requiredMessage="Campo obrigatório" immediate="true" size="60" placeholder="Nome, Sobrenome, BI, N.° Contribuinte"/>
+
+
+                        <p:commandButton value="Procurar..." actionListener="#{vitimaBean.executarProcuraVitimaPorNomeSobrenome}" styleClass="but but-primary" ajax="false"/>
+
+                    </h:panelGrid>
+
+
+                </h:form>
+
+
+                <h:form id="tbform">
+                    <p:dataTable  id="tbl" value="#{vitimaBean.listaPorNome}" var="item" rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records" rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"   showGridlines="true" scrollable="true" scrollHeight="250" emptyMessage="Nenhum registo encontrado">
+                        
+                        <p:column headerText="N.º do BI" >
+                            <h:outputText value="#{item.numeroBI}" />
+                        </p:column>
+                        <p:column headerText="N.º Contribuinte" >
+                            <h:outputText value="#{item.numeroContribuinte}" />
+                        </p:column>
+                        <p:column headerText="Nome:">
+                            <h:outputText value="#{item.nomeVitima}"/>
+                        </p:column>
+
+                        <p:column headerText="Sobrenome" >
+                            <h:outputText value="#{item.sobrenomeVitima}"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton icon="pi pi-search"  oncomplete="PF('dlg1').show();" >
+                                <f:setPropertyActionListener target="#{vitimaBean.vitima}" value="#{item}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <f:facet name="footer">  
+                            <h:outputText  rendered="#{vitimaBean.listaPorNome.size()>0}" value="Total: #{(vitimaBean.listaPorNome.size())}"/>  
+                        </f:facet> 
+
+                    </p:dataTable>
+                </h:form>
+
+                <p:dialog header="Vítima #{vitimaBean.vitima.nomeVitima} #{vitimaBean.vitima.sobrenomeVitima}" widgetVar="dlg1" minHeight="40" width="400" showEffect="fade">
+                   
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="N.º BI"/>
+                            <h:outputText value="#{vitimaBean.vitima.numeroBI}"/>
+                            <h:outputLabel value="N.º Contribuinte:"/>
+                            <h:outputText value="#{vitimaBean.vitima.numeroContribuinte}" />
+                            <h:outputLabel value="Nome:"/>
+                            <h:outputText value="#{vitimaBean.vitima.nomeVitima}" />
+                            <h:outputLabel value="Sobrenome:"/>
+                            <h:outputText value="#{vitimaBean.vitima.sobrenomeVitima}"/>
+                            <h:outputLabel value="Nascimento:"/>
+                            <h:outputText value="#{vitimaBean.vitima.dataNascimentoVitima}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                            <h:outputLabel value="Sexo:"/>
+                            <h:outputText value="#{vitimaBean.vitima.sexo}" />
+
+                            <h:outputLabel value="N.º Casa:"/>
+                            <h:outputText value="#{vitimaBean.vitima.casaVitima}"/>
+                            <h:outputLabel value="Bairro:"/>
+                            <h:outputText value="#{vitimaBean.vitima.bairroVitima}" />
+                            <h:outputLabel value="Comuna:"/>
+                            <h:outputText value="#{vitimaBean.vitima.comunaVitima}"/>
+                            <p:outputLabel value="Municipio:" />
+                            <h:outputText value="#{vitimaBean.vitima.municipio.nomeMunicipio}" />
+                        </h:panelGrid>
+                    
+                </p:dialog>
+
+
+
+            </ui:define>
+
+
+
+        </ui:composition>
+
+    </body>
+</html>
